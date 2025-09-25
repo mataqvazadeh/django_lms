@@ -16,3 +16,6 @@ dependencies = [
 dev = [
     "ty>=0.0.1a21",
 ]
+
+[tool.ruff.format]
+quote-style="single"
