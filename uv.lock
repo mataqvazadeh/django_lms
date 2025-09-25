@@ -26,7 +26,7 @@ wheels = [
 ]
 
 [[package]]
-name = "django-llm"
+name = "django-lms"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
