@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 
 class UserRoles(models.Model):
     class Roles(models.IntegerChoices):
@@ -10,7 +10,7 @@ class UserRoles(models.Model):
         FinancialEmployee = 5
         Teacher = 6
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     role = models.PositiveSmallIntegerField(choices=Roles.choices)
 
     class Meta:
