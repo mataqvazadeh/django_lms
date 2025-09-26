@@ -15,6 +15,8 @@ class Klass(models.Model):
     time = models.SmallIntegerField(choices=KlassTime.choices)
     start_date = models.DateField()
     end_date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
     teachers = models.ManyToManyField(
         Teacher,
         through='KlassTeacher',
