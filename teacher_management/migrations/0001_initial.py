@@ -15,14 +15,12 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='UserRoles',
+            name='Teacher',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('role', models.PositiveSmallIntegerField(choices=[(1, 'Secretary'), (2, 'Educationmanager'), (3, 'Educationemployee'), (4, 'Financialmanager'), (5, 'Financialemployee'), (6, 'Teacher')])),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('phone', models.TextField(max_length=20)),
+                ('emergency_phone', models.TextField(max_length=20)),
+                ('user', models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL)),
             ],
-            options={
-                'constraints': [models.UniqueConstraint(fields=('user', 'role'), name='uix_userroles_user_role')],
-            },
         ),
     ]

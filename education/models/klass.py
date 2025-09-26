@@ -16,13 +16,16 @@ class Klass(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     teachers = models.ManyToManyField(
-        Teacher, through='KlassTeacher', through_fields=('klass', 'teacher')
+        Teacher,
+        through='KlassTeacher',
+        through_fields=('klass', 'teacher'),
+        related_name='klasses',
     )
     assistants = models.ManyToManyField(
         Teacher,
-        null=True,
         through='KlassAssistant',
         through_fields=('klass', 'teacher'),
+        related_name='klasses_as_assistant',
     )
 
     def __str__(self):

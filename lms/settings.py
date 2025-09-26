@@ -86,7 +86,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '5432',
         'USER': 'maktab',
-        'PASSWORD': '123',
+        'PASSWORD': '1234',
         'NAME': 'lms-db',
     }
 }
