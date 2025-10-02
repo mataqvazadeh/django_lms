@@ -10,7 +10,7 @@ class UserRoles(models.Model):
         FinancialEmployee = 5
         Teacher = 6, "مربی"
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='roles')
     role = models.PositiveSmallIntegerField(choices=Roles.choices)
 
     class Meta:
