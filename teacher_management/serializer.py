@@ -2,31 +2,36 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from rest_framework import serializers
 
-from accounts.serializers import UserSerializer
 from accounts.models import UserRoles
 from teacher_management.models import SessionReport, Teacher
 
 
-class TeacherSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-
-    class Meta:
-        model = Teacher
-        fields = '__all__'
+class TeacherSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+    phone = serializers.CharField()
+    emergency_phone = serializers.CharField()
 
     def create(self, validated_data):
-        first_name = validated_data['user']['first_name']
-        last_name = validated_data['user']['last_name']
-        username = validated_data['user']['username']
-        password = validated_data['user']['password']
+        first_name = validated_data['first_name']
+        last_name = validated_data['last_name']
+        username = validated_data['username']
+        password = validated_data['password']
 
         with transaction.atomic():
-            teacher_user = get_user_model().objects.create_user(
-                username=username,
-                password=password,
-                first_name=first_name,
-                last_name=last_name,
-            )
+            user_model = get_user_model()
+
+            teacher_user = user_model.objects.filter(username=username).first()
+            if not teacher_user:
+                teacher_user = user_model.objects.create_user(
+                    username=username,
+                    password=password,
+                    first_name=first_name,
+                    last_name=last_name,
+                )
 
             teacher_user.roles.create(role=UserRoles.Roles.Teacher)
 
@@ -36,6 +41,16 @@ class TeacherSerializer(serializers.ModelSerializer):
                 emergency_phone=validated_data['emergency_phone'],
             )
 
+    def to_representation(self, instance: Teacher):
+        result = {}
+        result['id'] = instance.id
+        result['first_name'] = instance.user.first_name
+        result['last_name'] = instance.user.last_name
+        result['username'] = instance.user.username
+        result['phone'] = instance.phone
+        result['emergency_phone'] = instance.emergency_phone
+
+        return result
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
