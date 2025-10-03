@@ -63,3 +63,7 @@ class ReportSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
+
+    def create(self, validated_data):
+        validated_data['teacher_id'] = self.context['teacher_id']
+        return super().create(validated_data)

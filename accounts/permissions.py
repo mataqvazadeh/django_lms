@@ -12,6 +12,14 @@ class IsEducationEmployee(BasePermission):
                 role=UserRoles.Roles.EducationEmployee
             ).exists()
         )
-        return UserRoles.objects.filter(
-            user=request.user, role=UserRoles.Roles.EducationEmployee
-        ).exists()
+
+class IsTeacher(BasePermission):
+    def has_permission(self, request, view):
+        return (
+            request.user
+            and request.user.is_authenticated
+            and request.user.roles.filter(
+                role=UserRoles.Roles.Teacher
+            ).exists()
+        )
+    
